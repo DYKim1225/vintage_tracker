@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>와인 빈티지 레이더</title>
+
+  <!-- PWA & 모바일 앱(홈 화면 추가) 설정 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="빈티지레이더">
+  <meta name="application-name" content="빈티지레이더">
+  <meta name="theme-color" content="#4a0e1c">
+
+  <!-- 인라인 SVG 기반 3D 레드와인 & 클래식 돋보기 앱 아이콘 -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b0914'/%3E%3Cstop offset='100%25' stop-color='%23170308'/%3E%3C/linearGradient%3E%3ClinearGradient id='bottle' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a0206'/%3E%3Cstop offset='35%25' stop-color='%23801227'/%3E%3Cstop offset='70%25' stop-color='%234a0a16'/%3E%3Cstop offset='100%25' stop-color='%23120104'/%3E%3C/linearGradient%3E%3ClinearGradient id='foil' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%238a6d2b'/%3E%3Cstop offset='50%25' stop-color='%23ffd778'/%3E%3Cstop offset='100%25' stop-color='%236e531c'/%3E%3C/linearGradient%3E%3ClinearGradient id='brass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='40%25' stop-color='%23c99a3e'/%3E%3Cstop offset='100%25' stop-color='%2363440e'/%3E%3C/linearGradient%3E%3ClinearGradient id='glass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.6'/%3E%3Cstop offset='30%25' stop-color='%23ffffff' stop-opacity='0.15'/%3E%3Cstop offset='70%25' stop-color='%2380d4ff' stop-opacity='0.05'/%3E%3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='sh' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='12' stdDeviation='14' flood-color='%23000' flood-opacity='0.6'/%3E%3C/filter%3E%3Cfilter id='lensSh'%3E%3CfeDropShadow dx='6' dy='10' stdDeviation='10' flood-color='%23000' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Crect width='504' height='504' x='4' y='4' rx='111' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='4'/%3E%3Cg filter='url(%23sh)'%3E%3Cpath d='M232 75 h48 v55 c0 20 18 45 35 62 l12 12 c14 14 21 34 21 54 v160 c0 16-13 29-29 29 H194 c-16 0-29-13-29-29 V258 c0-20 7-40 21-54 l12-12 c17-17 34-42 34-62 Z' fill='url(%23bottle)'/%3E%3Cpath d='M232 70 h48 v55 h-48 Z' fill='url(%23foil)'/%3E%3Crect x='226' y='65' width='60' height='10' rx='4' fill='%23ffd778'/%3E%3Crect x='182' y='265' width='148' height='110' rx='8' fill='%23f6efe2'/%3E%3Crect x='192' y='275' width='128' height='90' rx='4' fill='none' stroke='%238a6d2b' stroke-width='2' stroke-dasharray='4 2'/%3E%3Crect x='206' y='295' width='100' height='8' rx='4' fill='%23801227'/%3E%3Crect x='218' y='315' width='76' height='5' rx='2.5' fill='%23a3937b'/%3E%3Crect x='228' y='330' width='56' height='12' rx='4' fill='%23c99a3e'/%3E%3Cpath d='M195 240 c-10 12-15 28-15 45 v110 c0 10 4 18 10 24 c-4-6-6-14-6-24 V285 c0-17 5-33 15-45 Z' fill='%23fff' opacity='0.25'/%3E%3C/g%3E%3Cg filter='url(%23lensSh)'%3E%3Crect x='330' y='330' width='28' height='105' rx='12' transform='rotate(-42 330 330)' fill='%23382109' stroke='%231a0e03' stroke-width='2'/%3E%3Crect x='334' y='335' width='20' height='25' rx='4' transform='rotate(-42 330 330)' fill='url(%23brass)'/%3E%3Ccircle cx='290' cy='290' r='95' fill='none' stroke='url(%23brass)' stroke-width='22'/%3E%3Ccircle cx='290' cy='290' r='84' fill='none' stroke='%233d2605' stroke-width='3'/%3E%3Ccircle cx='290' cy='290' r='83' fill='url(%23glass)'/%3E%3Cpath d='M235 245 A75 75 0 0 1 345 245' fill='none' stroke='%23fff' stroke-width='10' stroke-linecap='round' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E">
+
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b0914'/%3E%3Cstop offset='100%25' stop-color='%23170308'/%3E%3C/linearGradient%3E%3ClinearGradient id='bottle' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a0206'/%3E%3Cstop offset='35%25' stop-color='%23801227'/%3E%3Cstop offset='70%25' stop-color='%234a0a16'/%3E%3Cstop offset='100%25' stop-color='%23120104'/%3E%3C/linearGradient%3E%3ClinearGradient id='foil' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%238a6d2b'/%3E%3Cstop offset='50%25' stop-color='%23ffd778'/%3E%3Cstop offset='100%25' stop-color='%236e531c'/%3E%3C/linearGradient%3E%3ClinearGradient id='brass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='40%25' stop-color='%23c99a3e'/%3E%3Cstop offset='100%25' stop-color='%2363440e'/%3E%3C/linearGradient%3E%3ClinearGradient id='glass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.6'/%3E%3Cstop offset='30%25' stop-color='%23ffffff' stop-opacity='0.15'/%3E%3Cstop offset='70%25' stop-color='%2380d4ff' stop-opacity='0.05'/%3E%3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='sh' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='12' stdDeviation='14' flood-color='%23000' flood-opacity='0.6'/%3E%3C/filter%3E%3Cfilter id='lensSh'%3E%3CfeDropShadow dx='6' dy='10' stdDeviation='10' flood-color='%23000' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Crect width='504' height='504' x='4' y='4' rx='111' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='4'/%3E%3Cg filter='url(%23sh)'%3E%3Cpath d='M232 75 h48 v55 c0 20 18 45 35 62 l12 12 c14 14 21 34 21 54 v160 c0 16-13 29-29 29 H194 c-16 0-29-13-29-29 V258 c0-20 7-40 21-54 l12-12 c17-17 34-42 34-62 Z' fill='url(%23bottle)'/%3E%3Cpath d='M232 70 h48 v55 h-48 Z' fill='url(%23foil)'/%3E%3Crect x='226' y='65' width='60' height='10' rx='4' fill='%23ffd778'/%3E%3Crect x='182' y='265' width='148' height='110' rx='8' fill='%23f6efe2'/%3E%3Crect x='192' y='275' width='128' height='90' rx='4' fill='none' stroke='%238a6d2b' stroke-width='2' stroke-dasharray='4 2'/%3E%3Crect x='206' y='295' width='100' height='8' rx='4' fill='%23801227'/%3E%3Crect x='218' y='315' width='76' height='5' rx='2.5' fill='%23a3937b'/%3E%3Crect x='228' y='330' width='56' height='12' rx='4' fill='%23c99a3e'/%3E%3Cpath d='M195 240 c-10 12-15 28-15 45 v110 c0 10 4 18 10 24 c-4-6-6-14-6-24 V285 c0-17 5-33 15-45 Z' fill='%23fff' opacity='0.25'/%3E%3C/g%3E%3Cg filter='url(%23lensSh)'%3E%3Crect x='330' y='330' width='28' height='105' rx='12' transform='rotate(-42 330 330)' fill='%23382109' stroke='%231a0e03' stroke-width='2'/%3E%3Crect x='334' y='335' width='20' height='25' rx='4' transform='rotate(-42 330 330)' fill='url(%23brass)'/%3E%3Ccircle cx='290' cy='290' r='95' fill='none' stroke='url(%23brass)' stroke-width='22'/%3E%3Ccircle cx='290' cy='290' r='84' fill='none' stroke='%233d2605' stroke-width='3'/%3E%3Ccircle cx='290' cy='290' r='83' fill='url(%23glass)'/%3E%3Cpath d='M235 245 A75 75 0 0 1 345 245' fill='none' stroke='%23fff' stroke-width='10' stroke-linecap='round' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- 인라인 웹앱 매니페스트 (안드로이드 크롬 PWA 지원) -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"와인 빈티지 레이더","short_name":"빈티지레이더","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%234a0e1c"}'>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .bottom-sheet { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased select-none">
+
+  <!-- 메인 모바일 뷰포트 -->
+  <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between p-5 relative">
+    
+    <!-- 1. 헤더 (앱 아이콘 미니 뱃지 포함) -->
+    <header class="flex justify-between items-center py-2">
+      <div class="flex items-center gap-2.5">
+        <!-- 상단 헤더에 들어가는 미니 앱 로고 -->
+        <div class="w-9 h-9 rounded-xl bg-[#3b0914] shadow-sm flex items-center justify-center border border-white/20">
+          <span class="text-base">🍷</span>
+        </div>
+        <div>
+          <h1 class="text-lg font-black text-slate-900 tracking-tight leading-none">VINTAGE RADAR</h1>
+          <p class="text-[11px] text-slate-400 mt-1">현장 전용 빈티지 판별기</p>
+        </div>
+      </div>
+      <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">
+        OFFLINE OK
+      </span>
+    </header>
+
+    <!-- 2. AI 라벨 스캐너 (대형 터치 영역) -->
+    <section class="my-4 space-y-3">
+      <label class="flex items-center justify-center gap-3 w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white rounded-2xl text-base font-bold shadow-md cursor-pointer transition">
+        <span class="text-xl">📷</span> 라벨 즉시 촬영
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden">
+      </label>
+      
+      <label class="flex items-center justify-center gap-3 w-full py-3.5 bg-white hover:bg-slate-100 active:scale-[0.98] text-slate-700 rounded-2xl text-sm font-semibold border border-slate-200 shadow-sm cursor-pointer transition">
+        <span class="text-lg">🖼️</span> 앨범에서 사진 선택
+        <input type="file" id="galleryInput" accept="image/*" class="hidden">
+      </label>
+    </section>
+
+    <!-- 3. 산지 직접 탐색 (여유로운 카드 뷰) -->
+    <section class="grow flex flex-col">
+      <div class="flex items-center justify-between mb-2.5">
+        <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">국가 및 산지 빠른 조회</h2>
+        <span class="text-[11px] text-slate-400">오프라인 지원</span>
+      </div>
+
+      <!-- 국가 탭 바 (가로 스크롤) -->
+      <div id="countryTabs" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-2"></div>
+
+      <!-- 선택된 국가의 대표 산지 카드 (2열 그리드) -->
+      <div id="regionGrid" class="grid grid-cols-2 gap-2.5 mt-2"></div>
+    </section>
+
+    <!-- 하단 푸터 -->
+    <footer class="text-center text-[11px] text-slate-400 py-2">
+      1900년 ~ 현재 빈티지만 판별 대상입니다.
+    </footer>
+  </div>
+
+  <!-- 4. 분석 중 로딩 화면 (타임아웃 적용) -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white hidden">
+    <div class="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+    <p class="text-sm font-bold tracking-tight">라벨 분석 중...</p>
+    <p class="text-xs text-slate-300 mt-1">산지와 수확 연도를 추출하고 있습니다.</p>
+  </div>
+
+  <!-- 5. 빈티지 매트릭스 바텀 시트 (결과 팝업) -->
+  <div id="bottomSheetBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden flex flex-col justify-end">
+    <div id="backdropClickArea" class="grow"></div>
+    
+    <div id="bottomSheet" class="bg-white rounded-t-3xl p-5 shadow-2xl max-w-md mx-auto w-full bottom-sheet transform translate-y-full">
+      <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-3 cursor-pointer" onclick="closeBottomSheet()"></div>
+      
+      <div class="flex justify-between items-center mb-3">
+        <div>
+          <h3 id="sheetTitle" class="text-base font-extrabold text-slate-900">산지 빈티지 차트</h3>
+          <p id="sheetSubTitle" class="text-[11px] text-slate-400">2000 ~ 2024년 작황 매트릭스</p>
+        </div>
+        <button id="closeSheetBtn" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-sm">✕</button>
+      </div>
+
+      <!-- 5x5 빈티지 매트릭스 타일 그리드 -->
+      <div id="vintageMatrix" class="grid grid-cols-5 gap-1.5 my-2"></div>
+
+      <!-- 선택된 연도 상세 카드 -->
+      <div class="mt-3 bg-slate-50 rounded-2xl p-3.5 border border-slate-200">
+        <div class="flex items-center justify-between mb-1">
+          <span id="detailYearText" class="text-sm font-black text-slate-900">-</span>
+          <span id="detailBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-md">-</span>
+        </div>
+        <p id="detailComment" class="text-xs text-slate-600 line-clamp-2">-</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 메인 자바스크립트 엔진 -->
+  <script>
+    // ⚙️ [배포 설정] 복사한 구글 앱스스크립트 배포 URL을 여기에 유지해주세요.
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzUHBey5gCK9caYg4v1racfGbFmYeAQ5mJ7gQ0abt-slBLdIUwX1Xzh68Tv5DjCRnc/exec";
+
+    // 6대 국가 및 대표 산지 정의
+    const COUNTRY_DATA = {
+      france: { name: '프랑스', flag: '🇫🇷', regions: ['보르도', '부르고뉴', '샹파뉴', '론'] },
+      italy: { name: '이탈리아', flag: '🇮🇹', regions: ['피에몬테', '토스카나', '베네토'] },
+      usa: { name: '미국', flag: '🇺🇸', regions: ['나파 밸리', '소노마', '오리건'] },
+      spain: { name: '스페인', flag: '🇪🇸', regions: ['리오하', '리베라 델 두에로', '프리오랏'] },
+      chile: { name: '칠레', flag: '🇨🇱', regions: ['마이포 밸리', '콜차구아 밸리', '카사블랑카'] },
+      germany: { name: '독일', flag: '🇩🇪', regions: ['모젤', '라인가우', '팔츠'] }
+    };
+
+    // 2000~2024 빈티지 고정 마스터 데이터 (BEST / GOOD / AVOID)
+    const VINTAGE_SCORES = {
+      '보르도': {
+        2024: { g: 'AVOID', c: '잦은 비와 곰팡이 피해로 묽고 서늘한 스타일' },
+        2023: { g: 'GOOD', c: '풍부한 수확량, 균형 잡힌 클래식 과실미' },
+        2022: { g: 'BEST', c: '가뭄 속 기적의 농축미와 신선한 산도의 공존' },
+        2021: { g: 'AVOID', c: '서늘한 기후로 산미가 도드라진 레트로 스타일' },
+        2020: { g: 'BEST', c: '트릴로지의 정점. 농축된 탄닌과 강력한 구조' },
+        2019: { g: 'BEST', c: '완벽에 가까운 밸런스와 순수한 과실미의 걸작' },
+        2018: { g: 'GOOD', c: '풍만한 과실과 볼륨감. 즉각적인 접근성' },
+        2017: { g: 'GOOD', c: '서리 피해로 수확량 감소했으나 탑 샤토 선방' },
+        2016: { g: 'BEST', c: '21세기 최고의 기념비적 클래식 빈티지' },
+        2015: { g: 'BEST', c: '풍부한 일조량, 달콤하고 부드러운 벨벳 탄닌' },
+        2014: { g: 'GOOD', c: '인디언 서머의 수혜. 뛰어난 가성비의 좌안 카베르네' },
+        2013: { g: 'AVOID', c: '최악의 저온다습 기후. 과실미 결핍 및 거친 산미' },
+        2012: { g: 'GOOD', c: '우안 메를로 위주로 지금 마시기 부드러운 전성기' },
+        2011: { g: 'AVOID', c: '생육 불균형으로 바디감이 가볍고 탄닌이 거침' },
+        2010: { g: 'BEST', c: '거대한 골격과 산미. 장기 셀러링의 절대강자' },
+        2009: { g: 'BEST', c: '화려하고 관능적인 완숙 과실미의 축제' },
+        2008: { g: 'GOOD', c: '서늘하고 단단한 클래식 스타일' },
+        2007: { g: 'AVOID', c: '농축도 부족으로 묽으며 빠른 소비 권장' },
+        2006: { g: 'GOOD', c: '단단한 구조감과 풍성한 질감' },
+        2005: { g: 'BEST', c: '21세기 최초의 모뉴멘탈 퍼펙트 빈티지' },
+        2004: { g: 'GOOD', c: '대풍년의 클래식한 산도' },
+        2003: { g: 'AVOID', c: '극심한 폭염으로 산미 부족, 잼 같은 뉘앙스' },
+        2002: { g: 'GOOD', c: '서늘한 절제미와 장기 숙성력' },
+        2001: { g: 'GOOD', c: '소테른 위대, 레드는 엄격한 선별 필요' },
+        2000: { g: 'BEST', c: '역사적인 밀레니엄 걸작 빈티지' }
+      },
+      '부르고뉴': {
+        2024: { g: 'AVOID', c: '비 피해로 묽음. 서늘한 산미' },
+        2023: { g: 'GOOD', c: '대량 수확, 유연하고 화사한 과실' },
+        2022: { g: 'BEST', c: '기후 회복과 뛰어난 완숙도의 슈퍼 빈티지' },
+        2021: { g: 'AVOID', c: '봄 서리 참사로 산미가 찌르는 스타일' },
+        2020: { g: 'BEST', c: '극단적 과실 응축도와 높은 산도' },
+        2019: { g: 'BEST', c: '에너지와 활력이 넘치는 최고 수준 밸런스' },
+        2018: { g: 'GOOD', c: '따뜻한 해. 볼륨감 크고 마시기 편함' },
+        2017: { g: 'GOOD', c: '순수한 붉은 과실미로 지금 최적의 시음기' },
+        2016: { g: 'GOOD', c: '서리로 수확량 적으나 품질은 뛰어남' },
+        2015: { g: 'BEST', c: '완벽한 일조량. 풍성한 피노 누아의 정점' },
+        2014: { g: 'GOOD', c: '화이트 블랑의 세기적 명작' },
+        2013: { g: 'AVOID', c: '우박과 냉해로 거친 느낌' },
+        2012: { g: 'GOOD', c: '소량 생산된 집중도 높은 과실미' },
+        2011: { g: 'AVOID', c: '가볍고 풋내가 도는 경향' },
+        2010: { g: 'BEST', c: '테루아 표현력과 산도의 정점' },
+        2009: { g: 'BEST', c: '달콤하고 화려한 붉은 베리 풍미' },
+        2005: { g: 'BEST', c: '완벽한 구조를 가진 전설적인 빈티지' }
+      },
+      '샹파뉴': {
+        2022: { g: 'BEST', c: '완벽한 포도 상태, 21세기 역대급 빈티지' },
+        2021: { g: 'AVOID', c: '서리와 비로 대다수 생산 불가' },
+        2019: { g: 'GOOD', c: '집중도 높은 당도와 훌륭한 산미' },
+        2018: { g: 'GOOD', c: '풍작. 과실미가 풍부하고 구수한 스타일' },
+        2015: { g: 'GOOD', c: '피노 누아가 강세인 리치한 스타일' },
+        2013: { g: 'GOOD', c: '서늘한 산도와 날카로운 긴장감의 미학' },
+        2012: { g: 'BEST', c: '리치한 질감과 산미의 완벽한 조화' },
+        2008: { g: 'BEST', c: '21세기 샹파뉴 독보적 1위. 레이저 산미' },
+        2004: { g: 'GOOD', c: '우아한 밸런스와 긴 숙성 잠재력' },
+        2002: { g: 'BEST', c: '풍만함과 섬세한 버블의 결정체' }
+      },
+      '론': {
+        2020: { g: 'BEST', c: '화려한 향과 정교한 탄닌' },
+        2019: { g: 'BEST', c: '남북부 론 모두 힘과 신선미 겸비' },
+        2016: { g: 'BEST', c: '남부 론(샤토뇌프) 역사상 최고의 해' },
+        2015: { g: 'BEST', c: '북부 론(시라) 모뉴멘탈 빈티지' },
+        2010: { g: 'BEST', c: '순수함과 탄닌 구조감의 극치' }
+      },
+      '피에몬테': {
+        2021: { g: 'BEST', c: '위대한 클래식 바롤로의 귀환' },
+        2020: { g: 'GOOD', c: '접근성 좋은 화사한 과실미' },
+        2019: { g: 'BEST', c: '전통적 서늘함, 높은 산도, 견고한 골격' },
+        2016: { g: 'BEST', c: '21세기 바롤로의 모뉴멘탈 걸작' },
+        2015: { g: 'GOOD', c: '따뜻한 해. 지금 마시기 편한 탄닌' },
+        2014: { g: 'AVOID', c: '여름 폭우로 묽고 산화 위험' },
+        2013: { g: 'BEST', c: '단단하고 클래식한 장기 숙성형' },
+        2010: { g: 'BEST', c: '타르와 장미 향이 만개하는 세기의 해' },
+        2008: { g: 'BEST', c: '산미가 돋보이는 정제된 스타일' }
+      },
+      '토스카나': {
+        2021: { g: 'BEST', c: '산미와 탄닌의 완벽한 응축' },
+        2019: { g: 'BEST', c: '우아하고 정교한 밸런스' },
+        2016: { g: 'BEST', c: 'BDM 및 슈퍼투스칸 최고의 명작' },
+        2015: { g: 'BEST', c: '풍만한 과실미와 벨벳 같은 질감' },
+        2014: { g: 'AVOID', c: '폭우와 곰팡이 피해 심각' },
+        2013: { g: 'GOOD', c: '단단하고 클래식한 산미 중심' },
+        2010: { g: 'BEST', c: 'BDM 역사상 가장 완벽한 전설' }
+      },
+      '베네토': {
+        2016: { g: 'BEST', c: '아마로네의 파워와 산미 완벽 조화' },
+        2015: { g: 'BEST', c: '풍부한 당도와 깊은 응축도' },
+        2011: { g: 'BEST', c: '풍만하고 두터운 아마로네의 전형' },
+        2014: { g: 'AVOID', c: '비 피해로 농축도 부족' }
+      },
+      '나파 밸리': {
+        2021: { g: 'GOOD', c: '가뭄으로 매우 응축되고 파워풀' },
+        2020: { g: 'AVOID', c: '대형 산불로 스모크 테인트(연기 탄내) 주의' },
+        2019: { g: 'BEST', c: '풍부하면서도 우아한 최고급 밸런스' },
+        2018: { g: 'BEST', c: '이상적인 기후, 절제미와 장기 숙성력' },
+        2016: { g: 'BEST', c: '화려함과 견고한 탄닌의 조화' },
+        2013: { g: 'BEST', c: '엄청난 파워와 장기 셀러링용 최강자' },
+        2012: { g: 'BEST', c: '나파 특유의 잼미와 볼륨의 전형' },
+        2011: { g: 'AVOID', c: '이례적인 저온다습으로 풋내와 묽은 바디' }
+      },
+      '소노마': {
+        2019: { g: 'BEST', c: '피노 누아와 샤르도네의 순수한 산도' },
+        2018: { g: 'BEST', c: '길고 온화한 생육기로 완벽한 밸런스' },
+        2016: { g: 'BEST', c: '풍성한 과실과 섬세한 질감' },
+        2020: { g: 'AVOID', c: '산불 영향으로 선별 극도로 중요' }
+      },
+      '오리건': {
+        2021: { g: 'BEST', c: '선명한 붉은 베리와 정교한 산미' },
+        2019: { g: 'GOOD', c: '서늘한 클래식 피노 스타일' },
+        2018: { g: 'BEST', c: '따뜻한 해. 풍부한 바디와 긴 수명' },
+        2020: { g: 'AVOID', c: '산불 연기로 다수 와이너리 생산 포기' }
+      },
+      '리오하': {
+        2019: { g: 'BEST', c: '완벽한 농축미와 신선한 산도' },
+        2015: { g: 'BEST', c: '풍부하고 힘 있는 템프라니요' },
+        2011: { g: 'BEST', c: '역대급 완숙도와 장기 숙성력' },
+        2010: { g: 'BEST', c: '21세기 리오하 최고의 클래식 명작' },
+        2004: { g: 'BEST', c: '우아함과 구조감의 교과서' }
+      },
+      '리베라 델 두에로': {
+        2019: { g: 'BEST', c: '고지대 서늘함과 폭발적 완숙도' },
+        2016: { g: 'BEST', c: '완벽한 탄닌과 블랙베리 아로마' },
+        2015: { g: 'BEST', c: '파워풀하고 묵직한 구조감' },
+        2010: { g: 'BEST', c: '장기 셀러링용 세기의 해' }
+      },
+      '프리오랏': {
+        2019: { g: 'BEST', c: '점판암 미네랄과 농축 과실의 조화' },
+        2016: { g: 'BEST', c: '벨벳 탄닌과 우아한 피니시' },
+        2013: { g: 'BEST', c: '서늘한 기후 덕에 뛰어난 신선미' }
+      },
+      '마이포 밸리': {
+        2018: { g: 'BEST', c: '칠레 카베르네 소비뇽 최고의 빈티지' },
+        2013: { g: 'BEST', c: '서늘한 밸런스와 섬세한 탄닌' },
+        2019: { g: 'GOOD', c: '따뜻하고 접근하기 쉬운 과실미' },
+        2016: { g: 'AVOID', c: '수확기 폭우로 묽은 느낌' }
+      },
+      '콜차구아 밸리': {
+        2018: { g: 'BEST', c: '카르메네르의 완벽한 완숙도' },
+        2015: { g: 'GOOD', c: '리치하고 묵직한 풀바디' },
+        2016: { g: 'AVOID', c: '비 피해로 농축도 저하' }
+      },
+      '카사블랑카': {
+        2018: { g: 'BEST', c: '해양성 기후 샤르도네/소비뇽의 정점' },
+        2020: { g: 'GOOD', c: '신선한 시트러스와 바삭한 산미' }
+      },
+      '모젤': {
+        2021: { g: 'BEST', c: '레이저 같은 산도와 미네랄의 극치' },
+        2019: { g: 'BEST', c: '당도와 산미의 눈부신 황금비' },
+        2015: { g: 'BEST', c: '위대한 리슬링의 전형' },
+        2011: { g: 'BEST', c: '화려하고 접근성 좋은 풍미' },
+        2007: { g: 'BEST', c: '긴 가을 덕에 완성된 순수한 결정체' }
+      },
+      '라인가우': {
+        2021: { g: 'BEST', c: '단단하고 클래식한 산미의 복귀' },
+        2019: { g: 'BEST', c: '완벽한 농축도와 장기 숙성력' },
+        2015: { g: 'BEST', c: '귀족적인 균형감' }
+      },
+      '팔츠': {
+        2020: { g: 'GOOD', c: '드라이 리슬링 및 피노 누아 호조' },
+        2019: { g: 'BEST', c: '풍성한 과실미와 파워풀한 구조' },
+        2018: { g: 'GOOD', c: '따뜻한 일조량, 친근한 스타일' }
+      }
+    };
+
+    const YEARS = Array.from({ length: 25 }, (_, i) => 2024 - i);
+    let currentCountry = 'france';
+    let currentRegion = '보르도';
+    let currentYear = 2016;
+
+    // ── 화면 초기화 ──
+    function initUI() {
+      renderCountryTabs();
+      renderRegionGrid();
+    }
+
+    function renderCountryTabs() {
+      const tabs = document.getElementById('countryTabs');
+      tabs.innerHTML = Object.entries(COUNTRY_DATA).map(([key, item]) => `
+        <button onclick="selectCountry('${key}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition border ${
+          currentCountry === key ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white text-slate-600 border-slate-200'
+        }">
+          ${item.flag} ${item.name}
+        </button>
+      `).join('');
+    }
+
+    function selectCountry(cKey) {
+      currentCountry = cKey;
+      currentRegion = COUNTRY_DATA[cKey].regions[0];
+      renderCountryTabs();
+      renderRegionGrid();
+    }
+
+    function renderRegionGrid() {
+      const grid = document.getElementById('regionGrid');
+      const regions = COUNTRY_DATA[currentCountry].regions;
+      grid.innerHTML = regions.map(reg => `
+        <button onclick="openBottomSheet('${reg}', 2019)" class="p-4 bg-white hover:border-indigo-400 active:scale-95 border border-slate-200 rounded-2xl text-left shadow-sm transition flex flex-col justify-between h-20">
+          <span class="text-sm font-extrabold text-slate-800">${reg}</span>
+          <span class="text-[11px] text-indigo-600 font-bold flex items-center justify-between">차트 열기 <span>→</span></span>
+        </button>
+      `).join('');
+    }
+
+    // ── 바텀 시트 인터랙션 ──
+    function openBottomSheet(region, targetYear) {
+      currentRegion = region;
+      currentYear = targetYear || 2019;
+      
+      document.getElementById('sheetTitle').innerText = `${region} 빈티지 차트`;
+      renderMatrix();
+      updateDetailCard(currentYear);
+
+      const backdrop = document.getElementById('bottomSheetBackdrop');
+      const sheet = document.getElementById('bottomSheet');
+      backdrop.classList.remove('hidden');
+      setTimeout(() => sheet.classList.remove('translate-y-full'), 10);
+    }
+
+    function closeBottomSheet() {
+      const sheet = document.getElementById('bottomSheet');
+      sheet.classList.add('translate-y-full');
+      setTimeout(() => document.getElementById('bottomSheetBackdrop').classList.add('hidden'), 250);
+    }
+
+    document.getElementById('backdropClickArea').addEventListener('click', closeBottomSheet);
+    document.getElementById('closeSheetBtn').addEventListener('click', closeBottomSheet);
+
+    function renderMatrix() {
+      const container = document.getElementById('vintageMatrix');
+      const scores = VINTAGE_SCORES[currentRegion] || {};
+
+      container.innerHTML = YEARS.map(yr => {
+        const item = scores[yr] || { g: 'GOOD' };
+        let colorClass = 'bg-amber-400 text-amber-950 border-amber-500';
+        if (item.g === 'BEST') colorClass = 'bg-emerald-600 text-white border-emerald-700 shadow-sm';
+        if (item.g === 'AVOID') colorClass = 'bg-rose-500 text-white border-rose-600';
+
+        const isSelected = yr === currentYear;
+        return `
+          <button onclick="selectYear(${yr})" class="py-2 rounded-xl text-xs font-black border transition flex flex-col items-center justify-center ${colorClass} ${
+            isSelected ? 'ring-2 ring-slate-900 ring-offset-2 scale-105 z-10' : 'opacity-90'
+          }">
+            ${yr}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectYear(yr) {
+      currentYear = yr;
+      renderMatrix();
+      updateDetailCard(yr);
+    }
+
+    function updateDetailCard(yr) {
+      const info = (VINTAGE_SCORES[currentRegion] && VINTAGE_SCORES[currentRegion][yr]) || { g: 'GOOD', c: '평이하고 무난한 작황' };
+      document.getElementById('detailYearText').innerText = `${yr}년 ${currentRegion}`;
+      
+      const badge = document.getElementById('detailBadge');
+      if (info.g === 'BEST') {
+        badge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800';
+        badge.innerText = '🟢 강력 추천';
+      } else if (info.g === 'AVOID') {
+        badge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800';
+        badge.innerText = '🔴 구매 비추천';
+      } else {
+        badge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-900';
+        badge.innerText = '🟡 좋은 빈티지';
+      }
+
+      document.getElementById('detailComment').innerText = info.c;
+    }
+
+    // ── 이미지 클라이언트 압축 (Canvas Resize) ──
+    const cameraInput = document.getElementById('cameraInput');
+    const galleryInput = document.getElementById('galleryInput');
+
+    cameraInput.addEventListener('change', handleFile);
+    galleryInput.addEventListener('change', handleFile);
+
+    function handleFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          const maxDim = 800;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+          sendToGemini(compressedBase64);
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    }
+
+    // ── 백엔드 API 호출 (타임아웃 4.5초) ──
+    async function sendToGemini(base64Image) {
+      if (!GAS_API_URL || GAS_API_URL.includes("여기에_")) {
+        alert("GAS 배포 URL이 설정되지 않았습니다.\nindex.html 상단 GAS_API_URL 변수를 확인해주세요.");
+        return;
+      }
+
+      const loader = document.getElementById('loadingOverlay');
+      loader.classList.remove('hidden');
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ image: base64Image }),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        const res = await response.json();
+        loader.classList.add('hidden');
+
+        if (!res.success || !res.data) {
+          throw new Error('분석 실패');
+        }
+
+        const { region, vintage, wine_name } = res.data;
+
+        // 1900년 ~ 현재 연도 정합성 검증
+        const currentYearLimit = new Date().getFullYear();
+        if (!vintage || vintage < 1900 || vintage > currentYearLimit) {
+          alert('빈티지(4자리 수확 연도)를 확인할 수 없습니다.\nNV(넌빈티지) 와인이거나 연도가 다른 면에 있을 수 있습니다.');
+          return;
+        }
+
+        if (!region || !VINTAGE_SCORES[region]) {
+          alert(`라벨에서 [${wine_name || '와인'}]을(를) 확인했으나 등록된 대표 산지와 일치하지 않습니다.\n아래 목록에서 산지를 직접 선택해주세요.`);
+          return;
+        }
+
+        openBottomSheet(region, vintage);
+
+      } catch (err) {
+        loader.classList.add('hidden');
+        if (err.name === 'AbortError') {
+          alert('네트워크 연결이 지연되었습니다.\n다시 시도하거나 아래 산지를 직접 터치해주세요.');
+        } else {
+          alert('라벨 분석에 실패했습니다. 다시 촬영해주세요.');
+        }
+      }
+    }
+
+    initUI();
+  </script>
+</body>
+</html>
