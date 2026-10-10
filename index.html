@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>와인 빈티지 레이더</title>
+  <title>와인 빈티지 파인더</title>
 
-  <!-- PWA & 모바일 앱(홈 화면 추가) 설정 -->
+  <!-- PWA & 모바일 웹앱(홈 화면 추가) 설정 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="빈티지레이더">
-  <meta name="application-name" content="빈티지레이더">
-  <meta name="theme-color" content="#4a0e1c">
+  <meta name="apple-mobile-web-app-title" content="빈티지파인더">
+  <meta name="application-name" content="빈티지파인더">
+  <meta name="theme-color" content="#3b0914">
 
-  <!-- 인라인 SVG 기반 3D 레드와인 & 클래식 돋보기 앱 아이콘 -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b0914'/%3E%3Cstop offset='100%25' stop-color='%23170308'/%3E%3C/linearGradient%3E%3ClinearGradient id='bottle' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a0206'/%3E%3Cstop offset='35%25' stop-color='%23801227'/%3E%3Cstop offset='70%25' stop-color='%234a0a16'/%3E%3Cstop offset='100%25' stop-color='%23120104'/%3E%3C/linearGradient%3E%3ClinearGradient id='foil' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%238a6d2b'/%3E%3Cstop offset='50%25' stop-color='%23ffd778'/%3E%3Cstop offset='100%25' stop-color='%236e531c'/%3E%3C/linearGradient%3E%3ClinearGradient id='brass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='40%25' stop-color='%23c99a3e'/%3E%3Cstop offset='100%25' stop-color='%2363440e'/%3E%3C/linearGradient%3E%3ClinearGradient id='glass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.6'/%3E%3Cstop offset='30%25' stop-color='%23ffffff' stop-opacity='0.15'/%3E%3Cstop offset='70%25' stop-color='%2380d4ff' stop-opacity='0.05'/%3E%3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='sh' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='12' stdDeviation='14' flood-color='%23000' flood-opacity='0.6'/%3E%3C/filter%3E%3Cfilter id='lensSh'%3E%3CfeDropShadow dx='6' dy='10' stdDeviation='10' flood-color='%23000' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Crect width='504' height='504' x='4' y='4' rx='111' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='4'/%3E%3Cg filter='url(%23sh)'%3E%3Cpath d='M232 75 h48 v55 c0 20 18 45 35 62 l12 12 c14 14 21 34 21 54 v160 c0 16-13 29-29 29 H194 c-16 0-29-13-29-29 V258 c0-20 7-40 21-54 l12-12 c17-17 34-42 34-62 Z' fill='url(%23bottle)'/%3E%3Cpath d='M232 70 h48 v55 h-48 Z' fill='url(%23foil)'/%3E%3Crect x='226' y='65' width='60' height='10' rx='4' fill='%23ffd778'/%3E%3Crect x='182' y='265' width='148' height='110' rx='8' fill='%23f6efe2'/%3E%3Crect x='192' y='275' width='128' height='90' rx='4' fill='none' stroke='%238a6d2b' stroke-width='2' stroke-dasharray='4 2'/%3E%3Crect x='206' y='295' width='100' height='8' rx='4' fill='%23801227'/%3E%3Crect x='218' y='315' width='76' height='5' rx='2.5' fill='%23a3937b'/%3E%3Crect x='228' y='330' width='56' height='12' rx='4' fill='%23c99a3e'/%3E%3Cpath d='M195 240 c-10 12-15 28-15 45 v110 c0 10 4 18 10 24 c-4-6-6-14-6-24 V285 c0-17 5-33 15-45 Z' fill='%23fff' opacity='0.25'/%3E%3C/g%3E%3Cg filter='url(%23lensSh)'%3E%3Crect x='330' y='330' width='28' height='105' rx='12' transform='rotate(-42 330 330)' fill='%23382109' stroke='%231a0e03' stroke-width='2'/%3E%3Crect x='334' y='335' width='20' height='25' rx='4' transform='rotate(-42 330 330)' fill='url(%23brass)'/%3E%3Ccircle cx='290' cy='290' r='95' fill='none' stroke='url(%23brass)' stroke-width='22'/%3E%3Ccircle cx='290' cy='290' r='84' fill='none' stroke='%233d2605' stroke-width='3'/%3E%3Ccircle cx='290' cy='290' r='83' fill='url(%23glass)'/%3E%3Cpath d='M235 245 A75 75 0 0 1 345 245' fill='none' stroke='%23fff' stroke-width='10' stroke-linecap='round' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E">
+  <!-- iOS 홈 화면 아이콘 태그 (PNG 데이터 동적 주입) -->
+  <link id="appleTouchIcon" rel="apple-touch-icon" href="">
+  <link id="favicon" rel="icon" type="image/png" href="">
 
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b0914'/%3E%3Cstop offset='100%25' stop-color='%23170308'/%3E%3C/linearGradient%3E%3ClinearGradient id='bottle' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a0206'/%3E%3Cstop offset='35%25' stop-color='%23801227'/%3E%3Cstop offset='70%25' stop-color='%234a0a16'/%3E%3Cstop offset='100%25' stop-color='%23120104'/%3E%3C/linearGradient%3E%3ClinearGradient id='foil' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%238a6d2b'/%3E%3Cstop offset='50%25' stop-color='%23ffd778'/%3E%3Cstop offset='100%25' stop-color='%236e531c'/%3E%3C/linearGradient%3E%3ClinearGradient id='brass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='40%25' stop-color='%23c99a3e'/%3E%3Cstop offset='100%25' stop-color='%2363440e'/%3E%3C/linearGradient%3E%3ClinearGradient id='glass' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.6'/%3E%3Cstop offset='30%25' stop-color='%23ffffff' stop-opacity='0.15'/%3E%3Cstop offset='70%25' stop-color='%2380d4ff' stop-opacity='0.05'/%3E%3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='sh' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='12' stdDeviation='14' flood-color='%23000' flood-opacity='0.6'/%3E%3C/filter%3E%3Cfilter id='lensSh'%3E%3CfeDropShadow dx='6' dy='10' stdDeviation='10' flood-color='%23000' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Crect width='504' height='504' x='4' y='4' rx='111' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='4'/%3E%3Cg filter='url(%23sh)'%3E%3Cpath d='M232 75 h48 v55 c0 20 18 45 35 62 l12 12 c14 14 21 34 21 54 v160 c0 16-13 29-29 29 H194 c-16 0-29-13-29-29 V258 c0-20 7-40 21-54 l12-12 c17-17 34-42 34-62 Z' fill='url(%23bottle)'/%3E%3Cpath d='M232 70 h48 v55 h-48 Z' fill='url(%23foil)'/%3E%3Crect x='226' y='65' width='60' height='10' rx='4' fill='%23ffd778'/%3E%3Crect x='182' y='265' width='148' height='110' rx='8' fill='%23f6efe2'/%3E%3Crect x='192' y='275' width='128' height='90' rx='4' fill='none' stroke='%238a6d2b' stroke-width='2' stroke-dasharray='4 2'/%3E%3Crect x='206' y='295' width='100' height='8' rx='4' fill='%23801227'/%3E%3Crect x='218' y='315' width='76' height='5' rx='2.5' fill='%23a3937b'/%3E%3Crect x='228' y='330' width='56' height='12' rx='4' fill='%23c99a3e'/%3E%3Cpath d='M195 240 c-10 12-15 28-15 45 v110 c0 10 4 18 10 24 c-4-6-6-14-6-24 V285 c0-17 5-33 15-45 Z' fill='%23fff' opacity='0.25'/%3E%3C/g%3E%3Cg filter='url(%23lensSh)'%3E%3Crect x='330' y='330' width='28' height='105' rx='12' transform='rotate(-42 330 330)' fill='%23382109' stroke='%231a0e03' stroke-width='2'/%3E%3Crect x='334' y='335' width='20' height='25' rx='4' transform='rotate(-42 330 330)' fill='url(%23brass)'/%3E%3Ccircle cx='290' cy='290' r='95' fill='none' stroke='url(%23brass)' stroke-width='22'/%3E%3Ccircle cx='290' cy='290' r='84' fill='none' stroke='%233d2605' stroke-width='3'/%3E%3Ccircle cx='290' cy='290' r='83' fill='url(%23glass)'/%3E%3Cpath d='M235 245 A75 75 0 0 1 345 245' fill='none' stroke='%23fff' stroke-width='10' stroke-linecap='round' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E">
-
-  <!-- 인라인 웹앱 매니페스트 (안드로이드 크롬 PWA 지원) -->
-  <link rel="manifest" href='data:application/manifest+json,{"name":"와인 빈티지 레이더","short_name":"빈티지레이더","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%234a0e1c"}'>
+  <!-- PWA 매니페스트 -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"와인 빈티지 파인더","short_name":"빈티지파인더","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%233b0914"}'>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -30,28 +29,20 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased select-none">
 
-  <!-- 메인 모바일 뷰포트 -->
-  <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between p-5 relative">
+  <!-- 메인 모바일 뷰포트 (상단 노치/다이내믹 아일랜드 여백 확보) -->
+  <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between px-5 pb-5 pt-[max(env(safe-area-inset-top),3.5rem)] relative">
     
-    <!-- 1. 헤더 (앱 아이콘 미니 뱃지 포함) -->
-    <header class="flex justify-between items-center py-2">
-      <div class="flex items-center gap-2.5">
-        <!-- 상단 헤더에 들어가는 미니 앱 로고 -->
-        <div class="w-9 h-9 rounded-xl bg-[#3b0914] shadow-sm flex items-center justify-center border border-white/20">
-          <span class="text-base">🍷</span>
-        </div>
-        <div>
-          <h1 class="text-lg font-black text-slate-900 tracking-tight leading-none">VINTAGE RADAR</h1>
-          <p class="text-[11px] text-slate-400 mt-1">현장 전용 빈티지 판별기</p>
-        </div>
+    <!-- 1. 헤더 (상단 여유 여백 및 앱 로고) -->
+    <header class="flex items-center gap-3 py-3 mb-2">
+      <canvas id="headerLogoCanvas" width="80" height="80" class="w-10 h-10 rounded-2xl shadow-sm shrink-0 border border-slate-200/50"></canvas>
+      <div>
+        <h1 class="text-xl font-black text-slate-900 tracking-tight leading-none">VINTAGE FINDER</h1>
+        <p class="text-xs text-slate-400 mt-1 font-medium">스마트 와인 빈티지 가이드</p>
       </div>
-      <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">
-        OFFLINE OK
-      </span>
     </header>
 
-    <!-- 2. AI 라벨 스캐너 (대형 터치 영역) -->
-    <section class="my-4 space-y-3">
+    <!-- 2. AI 라벨 스캐너 -->
+    <section class="my-3 space-y-2.5">
       <label class="flex items-center justify-center gap-3 w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white rounded-2xl text-base font-bold shadow-md cursor-pointer transition">
         <span class="text-xl">📷</span> 라벨 즉시 촬영
         <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden">
@@ -63,11 +54,19 @@
       </label>
     </section>
 
-    <!-- 3. 산지 직접 탐색 (여유로운 카드 뷰) -->
-    <section class="grow flex flex-col">
-      <div class="flex items-center justify-between mb-2.5">
+    <!-- 3. 산지 직접 탐색 섹션 -->
+    <section class="grow flex flex-col mt-2">
+      <div class="flex items-center justify-between mb-2">
         <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">국가 및 산지 빠른 조회</h2>
-        <span class="text-[11px] text-slate-400">오프라인 지원</span>
+      </div>
+
+      <!-- 색상 3가지 의미 가이드 바 -->
+      <div class="flex items-center justify-between bg-slate-200/60 rounded-xl px-3.5 py-2 text-[11px] font-bold text-slate-600 mb-3 border border-slate-300/40">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span>강력 추천</span>
+        <span class="text-slate-300">|</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm"></span>좋은 빈티지</span>
+        <span class="text-slate-300">|</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span>구매 비추천</span>
       </div>
 
       <!-- 국가 탭 바 (가로 스크롤) -->
@@ -77,13 +76,13 @@
       <div id="regionGrid" class="grid grid-cols-2 gap-2.5 mt-2"></div>
     </section>
 
-    <!-- 하단 푸터 -->
-    <footer class="text-center text-[11px] text-slate-400 py-2">
+    <!-- 푸터 -->
+    <footer class="text-center text-[11px] text-slate-400 py-2 mt-4">
       1900년 ~ 현재 빈티지만 판별 대상입니다.
     </footer>
   </div>
 
-  <!-- 4. 분석 중 로딩 화면 (타임아웃 적용) -->
+  <!-- 4. 분석 중 로딩 화면 -->
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white hidden">
     <div class="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mb-4"></div>
     <p class="text-sm font-bold tracking-tight">라벨 분석 중...</p>
@@ -119,10 +118,149 @@
     </div>
   </div>
 
-  <!-- 6. 메인 자바스크립트 엔진 -->
+  <!-- 숨겨진 고해상도 아이콘 생성용 캔버스 (180x180) -->
+  <canvas id="iconGenCanvas" width="180" height="180" class="hidden"></canvas>
+
+  <!-- 6. 메인 스크립트 -->
   <script>
-    // ⚙️ [배포 설정] 복사한 구글 앱스스크립트 배포 URL을 여기에 유지해주세요.
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzUHBey5gCK9caYg4v1racfGbFmYeAQ5mJ7gQ0abt-slBLdIUwX1Xzh68Tv5DjCRnc/exec";
+    // 전달해주신 GAS API URL 직접 연결 완료
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxKMffc5u-2X4ZoBSrmj9HqcUs9tq9_JxjUgNQ1bUnOVdVI6dkOy8lofC24WyIlryY/exec";
+
+    // ── 3D 레드와인 병 + 클래식 돋보기 고해상도 PNG 아이콘 자동 생성 ──
+    function generateAppIcons() {
+      const cvs = document.getElementById('iconGenCanvas');
+      const ctx = cvs.getContext('2d');
+      drawWineGlassIcon(ctx, 180);
+
+      const pngData = cvs.toDataURL('image/png');
+      document.getElementById('appleTouchIcon').href = pngData;
+      document.getElementById('favicon').href = pngData;
+
+      // 헤더 미니 로고에도 복사
+      const headerCvs = document.getElementById('headerLogoCanvas');
+      const hCtx = headerCvs.getContext('2d');
+      drawWineGlassIcon(hCtx, 80);
+    }
+
+    function drawWineGlassIcon(ctx, size) {
+      const scale = size / 180;
+      ctx.clearRect(0, 0, size, size);
+
+      // 배경: 라운드 스퀘어 버건디 그라데이션
+      const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+      bgGrad.addColorStop(0, '#4a0e1c');
+      bgGrad.addColorStop(1, '#1a0307');
+      
+      ctx.beginPath();
+      const r = 40 * scale;
+      ctx.roundRect(0, 0, size, size, r);
+      ctx.fillStyle = bgGrad;
+      ctx.fill();
+
+      // 레드 와인 보틀
+      ctx.save();
+      ctx.scale(scale, scale);
+
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 3;
+      ctx.shadowOffsetY = 6;
+
+      const bottleGrad = ctx.createLinearGradient(45, 0, 105, 0);
+      bottleGrad.addColorStop(0, '#1c0307');
+      bottleGrad.addColorStop(0.35, '#821528');
+      bottleGrad.addColorStop(0.7, '#420813');
+      bottleGrad.addColorStop(1, '#120104');
+
+      ctx.beginPath();
+      ctx.moveTo(70, 25);
+      ctx.lineTo(82, 25);
+      ctx.lineTo(82, 50);
+      ctx.bezierCurveTo(82, 68, 106, 82, 106, 105);
+      ctx.lineTo(106, 155);
+      ctx.bezierCurveTo(106, 162, 100, 165, 93, 165);
+      ctx.lineTo(59, 165);
+      ctx.bezierCurveTo(52, 165, 46, 162, 46, 155);
+      ctx.lineTo(46, 105);
+      ctx.bezierCurveTo(46, 82, 70, 68, 70, 50);
+      ctx.closePath();
+      ctx.fillStyle = bottleGrad;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.scale(scale, scale);
+      // 골드 캡슐 (호일)
+      const foilGrad = ctx.createLinearGradient(70, 0, 82, 0);
+      foilGrad.addColorStop(0, '#9e782f');
+      foilGrad.addColorStop(0.5, '#ffd97d');
+      foilGrad.addColorStop(1, '#694f1c');
+      ctx.fillStyle = foilGrad;
+      ctx.fillRect(70, 22, 12, 26);
+      ctx.fillRect(68, 20, 16, 4);
+
+      // 베이지 와인 라벨
+      ctx.fillStyle = '#f5efe4';
+      ctx.fillRect(52, 102, 48, 44);
+      ctx.fillStyle = '#7a1928';
+      ctx.fillRect(58, 112, 36, 4);
+      ctx.fillStyle = '#b09f87';
+      ctx.fillRect(62, 122, 28, 2.5);
+      ctx.fillStyle = '#c49a45';
+      ctx.fillRect(65, 130, 22, 5);
+
+      // 병 하이라이트 광택
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(52, 105);
+      ctx.lineTo(52, 152);
+      ctx.stroke();
+
+      // 클래식 황동 돋보기
+      ctx.save();
+      ctx.translate(118, 118);
+      ctx.rotate(45 * Math.PI / 180);
+
+      // 손잡이 목부분
+      ctx.fillStyle = '#dfaf4e';
+      ctx.fillRect(-4, 40, 8, 8);
+
+      // 나무 손잡이
+      const woodGrad = ctx.createLinearGradient(-5, 0, 5, 0);
+      woodGrad.addColorStop(0, '#2e1505');
+      woodGrad.addColorStop(0.5, '#5c2d0c');
+      woodGrad.addColorStop(1, '#1f0d03');
+      ctx.fillStyle = woodGrad;
+      ctx.beginPath();
+      ctx.roundRect(-5, 48, 10, 38, 4);
+      ctx.fill();
+
+      // 황동 링
+      ctx.beginPath();
+      ctx.arc(0, 0, 36, 0, Math.PI * 2);
+      ctx.lineWidth = 7;
+      const brassGrad = ctx.createLinearGradient(-36, -36, 36, 36);
+      brassGrad.addColorStop(0, '#ffe89e');
+      brassGrad.addColorStop(0.4, '#c99a3e');
+      brassGrad.addColorStop(1, '#5e3f0a');
+      ctx.strokeStyle = brassGrad;
+      ctx.stroke();
+
+      // 유리 렌즈 & 반사광
+      ctx.fillStyle = 'rgba(220, 240, 255, 0.22)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(-2, -2, 27, 3.8, 5.2);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.lineWidth = 3.5;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      ctx.restore();
+      ctx.restore();
+    }
 
     // 6대 국가 및 대표 산지 정의
     const COUNTRY_DATA = {
@@ -134,7 +272,7 @@
       germany: { name: '독일', flag: '🇩🇪', regions: ['모젤', '라인가우', '팔츠'] }
     };
 
-    // 2000~2024 빈티지 고정 마스터 데이터 (BEST / GOOD / AVOID)
+    // 2000~2024 빈티지 고정 마스터 데이터
     const VINTAGE_SCORES = {
       '보르도': {
         2024: { g: 'AVOID', c: '잦은 비와 곰팡이 피해로 묽고 서늘한 스타일' },
@@ -308,6 +446,7 @@
 
     // ── 화면 초기화 ──
     function initUI() {
+      generateAppIcons();
       renderCountryTabs();
       renderRegionGrid();
     }
@@ -448,11 +587,6 @@
 
     // ── 백엔드 API 호출 (타임아웃 4.5초) ──
     async function sendToGemini(base64Image) {
-      if (!GAS_API_URL || GAS_API_URL.includes("여기에_")) {
-        alert("GAS 배포 URL이 설정되지 않았습니다.\nindex.html 상단 GAS_API_URL 변수를 확인해주세요.");
-        return;
-      }
-
       const loader = document.getElementById('loadingOverlay');
       loader.classList.remove('hidden');
 
@@ -501,7 +635,8 @@
       }
     }
 
-    initUI();
+    // 초기 실행
+    window.addEventListener('DOMContentLoaded', initUI);
   </script>
 </body>
 </html>
