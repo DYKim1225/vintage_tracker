@@ -12,7 +12,7 @@
   <meta name="application-name" content="빈티지파인더">
   <meta name="theme-color" content="#3b0914">
 
-  <!-- iOS 홈 화면 아이콘 태그 (PNG 동적 주입) -->
+  <!-- iOS 홈 화면 아이콘 태그 -->
   <link id="appleTouchIcon" rel="apple-touch-icon" href="">
   <link id="favicon" rel="icon" type="image/png" href="">
 
@@ -29,7 +29,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased select-none">
 
-  <!-- 메인 모바일 뷰포트 (상단 노치 여백 확보) -->
+  <!-- 메인 모바일 뷰포트 -->
   <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between px-5 pb-5 pt-[max(env(safe-area-inset-top),3.5rem)] relative">
     
     <!-- 1. 헤더 -->
@@ -54,10 +54,11 @@
       </label>
     </section>
 
-    <!-- 3. 산지 직접 탐색 섹션 -->
+    <!-- 3. 산지 직접 탐색 섹션 (오프라인 퀵 뷰) -->
     <section class="grow flex flex-col mt-2">
       <div class="flex items-center justify-between mb-2">
-        <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">국가 및 산지 빠른 조회</h2>
+        <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">주요 산지 빈티지 차트</h2>
+        <span class="text-[11px] text-slate-400 font-semibold">오프라인 지원</span>
       </div>
 
       <!-- 색상 3가지 의미 가이드 바 -->
@@ -78,18 +79,53 @@
 
     <!-- 푸터 -->
     <footer class="text-center text-[11px] text-slate-400 py-2 mt-4">
-      1900년 ~ 현재 빈티지만 판별 대상입니다.
+      전 세계 모든 와인 산지 실시간 분석 지원 (1900~현재)
     </footer>
   </div>
 
   <!-- 4. 분석 중 로딩 화면 -->
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white hidden">
     <div class="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-    <p class="text-sm font-bold tracking-tight">와인 정보 식별 중...</p>
-    <p class="text-xs text-slate-300 mt-1">라벨 디자인과 산지 정보를 분석하고 있습니다.</p>
+    <p class="text-sm font-bold tracking-tight">와인 및 산지 작황 평가 중...</p>
+    <p class="text-xs text-slate-300 mt-1">글로벌 빈티지 지식 베이스로 실시간 분석합니다. (약 3~5초)</p>
   </div>
 
-  <!-- 5. 빈티지 매트릭스 바텀 시트 (결과 팝업) -->
+  <!-- 5-A. 실시간 AI 사진 분석 결과 팝업 (방식 B 전용 바텀 시트) -->
+  <div id="aiResultBackdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex flex-col justify-end">
+    <div id="aiBackdropClickArea" class="grow"></div>
+    
+    <div id="aiResultSheet" class="bg-white rounded-t-3xl p-6 shadow-2xl max-w-md mx-auto w-full bottom-sheet transform translate-y-full">
+      <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-4 cursor-pointer" onclick="closeAiResultSheet()"></div>
+      
+      <!-- 상단 와인 정보 -->
+      <div class="flex justify-between items-start mb-4">
+        <div class="pr-2">
+          <span id="aiWineRegion" class="text-xs font-bold text-indigo-600 uppercase tracking-wider">-</span>
+          <h3 id="aiWineName" class="text-lg font-black text-slate-900 tracking-tight leading-snug mt-0.5">-</h3>
+        </div>
+        <button onclick="closeAiResultSheet()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-sm shrink-0">✕</button>
+      </div>
+
+      <!-- 메인 빈티지 평가 배지 카드 -->
+      <div id="aiGradeCard" class="rounded-2xl p-4 mb-4 border transition">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span id="aiVintageYear" class="text-2xl font-black text-slate-900">-</span>
+            <span class="text-xs text-slate-500 font-semibold">빈티지 작황 판정</span>
+          </div>
+          <span id="aiGradeBadge" class="text-xs font-black px-3 py-1 rounded-full">-</span>
+        </div>
+        <p id="aiGradeComment" class="text-xs text-slate-700 leading-relaxed font-medium">-</p>
+      </div>
+
+      <!-- 하단 닫기 버튼 -->
+      <button onclick="closeAiResultSheet()" class="w-full py-3.5 bg-slate-900 active:scale-[0.98] text-white rounded-xl text-sm font-bold shadow transition">
+        확인 완료
+      </button>
+    </div>
+  </div>
+
+  <!-- 5-B. 오프라인 5x5 빈티지 매트릭스 바텀 시트 (산지 직접 클릭용) -->
   <div id="bottomSheetBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden flex flex-col justify-end">
     <div id="backdropClickArea" class="grow"></div>
     
@@ -99,15 +135,13 @@
       <div class="flex justify-between items-center mb-3">
         <div>
           <h3 id="sheetTitle" class="text-base font-extrabold text-slate-900">산지 빈티지 차트</h3>
-          <p id="sheetSubTitle" class="text-[11px] text-slate-400">2000 ~ 2024년 작황 매트릭스</p>
+          <p class="text-[11px] text-slate-400">2000 ~ 2024년 작황 매트릭스</p>
         </div>
         <button id="closeSheetBtn" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-sm">✕</button>
       </div>
 
-      <!-- 5x5 빈티지 매트릭스 타일 그리드 -->
       <div id="vintageMatrix" class="grid grid-cols-5 gap-1.5 my-2"></div>
 
-      <!-- 선택된 연도 상세 카드 -->
       <div class="mt-3 bg-slate-50 rounded-2xl p-3.5 border border-slate-200">
         <div class="flex items-center justify-between mb-1">
           <span id="detailYearText" class="text-sm font-black text-slate-900">-</span>
@@ -118,15 +152,14 @@
     </div>
   </div>
 
-  <!-- 숨겨진 180x180 아이콘 생성용 캔버스 -->
+  <!-- 아이콘 생성용 캔버스 (180x180) -->
   <canvas id="iconGenCanvas" width="180" height="180" class="hidden"></canvas>
 
   <!-- 6. 메인 스크립트 -->
   <script>
-    // 전달해주신 GAS API URL 직접 연결
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxKMffc5u-2X4ZoBSrmj9HqcUs9tq9_JxjUgNQ1bUnOVdVI6dkOy8lofC24WyIlryY/exec";
 
-    // ── 3D 레드와인 병 + 황동 돋보기 아이콘 생성 ──
+    // ── 3D 레드와인 병 + 클래식 돋보기 고해상도 PNG 아이콘 자동 생성 ──
     function generateAppIcons() {
       const cvs = document.getElementById('iconGenCanvas');
       const ctx = cvs.getContext('2d');
@@ -251,17 +284,17 @@
       ctx.restore();
     }
 
-    // 6대 국가 및 대표 산지
+    // 오프라인 퀵 뷰용 6대 국가 및 대표 산지
     const COUNTRY_DATA = {
       france: { name: '프랑스', flag: '🇫🇷', regions: ['보르도', '부르고뉴', '샹파뉴', '론'] },
       italy: { name: '이탈리아', flag: '🇮🇹', regions: ['피에몬테', '토스카나', '베네토'] },
-      usa: { name: '미국', flag: '🇺🇸', regions: ['나파 밸리', '소노마', '오리건'] },
+      usa: { name: '미국', flag: '🇺🇸', regions: ['나파 밸리', '소노마', '파소 로블레스', '오리건'] },
       spain: { name: '스페인', flag: '🇪🇸', regions: ['리오하', '리베라 델 두에로', '프리오랏'] },
       chile: { name: '칠레', flag: '🇨🇱', regions: ['마이포 밸리', '콜차구아 밸리', '카사블랑카'] },
       germany: { name: '독일', flag: '🇩🇪', regions: ['모젤', '라인가우', '팔츠'] }
     };
 
-    // 2000~2024 빈티지 고정 마스터 데이터
+    // 오프라인 대표 산지 2000~2024 빈티지 마스터 데이터
     const VINTAGE_SCORES = {
       '보르도': {
         2024: { g: 'AVOID', c: '잦은 비와 곰팡이 피해로 묽고 서늘한 스타일' },
@@ -370,6 +403,17 @@
         2016: { g: 'BEST', c: '풍성한 과실과 섬세한 질감' },
         2020: { g: 'AVOID', c: '산불 영향으로 선별 극도로 중요' }
       },
+      '파소 로블레스': {
+        2024: { g: 'GOOD', c: '온화하고 맑은 가을, 신선한 과실미' },
+        2023: { g: 'GOOD', c: '서늘하고 긴 생육기, 우아하고 높은 산도의 클래식 스타일' },
+        2022: { g: 'GOOD', c: '9월 폭염 극복, 농축되고 파워풀한 과실미' },
+        2021: { g: 'BEST', c: '가뭄으로 응축된 최고의 탄닌과 구조감' },
+        2020: { g: 'GOOD', c: '북부 나파 대비 산불 영향 적음, 풍성한 과실' },
+        2019: { g: 'BEST', c: '완벽한 일조량과 긴 수확기, 모범적인 밸런스' },
+        2018: { g: 'BEST', c: '파소 로블레스 역사상 최고의 슈퍼 빈티지' },
+        2017: { g: 'GOOD', c: '더운 여름, 풍부하고 진한 풀바디 카베르네' },
+        2016: { g: 'BEST', c: '풍부하고 힘 있는 완숙 카베르네' }
+      },
       '오리건': {
         2021: { g: 'BEST', c: '선명한 붉은 베리와 정교한 산미' },
         2019: { g: 'GOOD', c: '서늘한 클래식 피노 스타일' },
@@ -380,30 +424,25 @@
         2019: { g: 'BEST', c: '완벽한 농축미와 신선한 산도' },
         2015: { g: 'BEST', c: '풍부하고 힘 있는 템프라니요' },
         2011: { g: 'BEST', c: '역대급 완숙도와 장기 숙성력' },
-        2010: { g: 'BEST', c: '21세기 리오하 최고의 클래식 명작' },
-        2004: { g: 'BEST', c: '우아함과 구조감의 교과서' }
+        2010: { g: 'BEST', c: '21세기 리오하 최고의 클래식 명작' }
       },
       '리베라 델 두에로': {
         2019: { g: 'BEST', c: '고지대 서늘함과 폭발적 완숙도' },
         2016: { g: 'BEST', c: '완벽한 탄닌과 블랙베리 아로마' },
-        2015: { g: 'BEST', c: '파워풀하고 묵직한 구조감' },
-        2010: { g: 'BEST', c: '장기 셀러링용 세기의 해' }
+        2015: { g: 'BEST', c: '파워풀하고 묵직한 구조감' }
       },
       '프리오랏': {
         2019: { g: 'BEST', c: '점판암 미네랄과 농축 과실의 조화' },
-        2016: { g: 'BEST', c: '벨벳 탄닌과 우아한 피니시' },
-        2013: { g: 'BEST', c: '서늘한 기후 덕에 뛰어난 신선미' }
+        2016: { g: 'BEST', c: '벨벳 탄닌과 우아한 피니시' }
       },
       '마이포 밸리': {
         2018: { g: 'BEST', c: '칠레 카베르네 소비뇽 최고의 빈티지' },
         2013: { g: 'BEST', c: '서늘한 밸런스와 섬세한 탄닌' },
-        2019: { g: 'GOOD', c: '따뜻하고 접근하기 쉬운 과실미' },
-        2016: { g: 'AVOID', c: '수확기 폭우로 묽은 느낌' }
+        2019: { g: 'GOOD', c: '따뜻하고 접근하기 쉬운 과실미' }
       },
       '콜차구아 밸리': {
         2018: { g: 'BEST', c: '카르메네르의 완벽한 완숙도' },
-        2015: { g: 'GOOD', c: '리치하고 묵직한 풀바디' },
-        2016: { g: 'AVOID', c: '비 피해로 농축도 저하' }
+        2015: { g: 'GOOD', c: '리치하고 묵직한 풀바디' }
       },
       '카사블랑카': {
         2018: { g: 'BEST', c: '해양성 기후 샤르도네/소비뇽의 정점' },
@@ -412,19 +451,15 @@
       '모젤': {
         2021: { g: 'BEST', c: '레이저 같은 산도와 미네랄의 극치' },
         2019: { g: 'BEST', c: '당도와 산미의 눈부신 황금비' },
-        2015: { g: 'BEST', c: '위대한 리슬링의 전형' },
-        2011: { g: 'BEST', c: '화려하고 접근성 좋은 풍미' },
-        2007: { g: 'BEST', c: '긴 가을 덕에 완성된 순수한 결정체' }
+        2015: { g: 'BEST', c: '위대한 리슬링의 전형' }
       },
       '라인가우': {
         2021: { g: 'BEST', c: '단단하고 클래식한 산미의 복귀' },
-        2019: { g: 'BEST', c: '완벽한 농축도와 장기 숙성력' },
-        2015: { g: 'BEST', c: '귀족적인 균형감' }
+        2019: { g: 'BEST', c: '완벽한 농축도와 장기 숙성력' }
       },
       '팔츠': {
         2020: { g: 'GOOD', c: '드라이 리슬링 및 피노 누아 호조' },
-        2019: { g: 'BEST', c: '풍성한 과실미와 파워풀한 구조' },
-        2018: { g: 'GOOD', c: '따뜻한 일조량, 친근한 스타일' }
+        2019: { g: 'BEST', c: '풍성한 과실미와 파워풀한 구조' }
       }
     };
 
@@ -433,7 +468,6 @@
     let currentRegion = '보르도';
     let currentYear = 2016;
 
-    // ── 화면 초기화 ──
     function initUI() {
       generateAppIcons();
       renderCountryTabs();
@@ -469,13 +503,52 @@
       `).join('');
     }
 
-    // ── 바텀 시트 인터랙션 ──
-    function openBottomSheet(region, targetYear, wineDetailText) {
+    // ── 방식 B 전용: 실시간 AI 분석 결과 팝업 제어 ──
+    function openAiResultSheet(data) {
+      document.getElementById('aiWineRegion').innerText = `${data.country || '와인'} · ${data.sub_region || '산지'}`;
+      document.getElementById('aiWineName').innerText = data.wine_name || '식별된 와인';
+      document.getElementById('aiVintageYear').innerText = `${data.vintage}년`;
+
+      const badge = document.getElementById('aiGradeBadge');
+      const card = document.getElementById('aiGradeCard');
+      const comment = document.getElementById('aiGradeComment');
+
+      comment.innerText = data.comment || '해당 빈티지의 작황 정보입니다.';
+
+      if (data.grade === 'BEST') {
+        badge.className = 'text-xs font-black px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm';
+        badge.innerText = '🟢 강력 추천';
+        card.className = 'rounded-2xl p-4 mb-4 border bg-emerald-50/60 border-emerald-200';
+      } else if (data.grade === 'AVOID') {
+        badge.className = 'text-xs font-black px-3 py-1 rounded-full bg-rose-600 text-white shadow-sm';
+        badge.innerText = '🔴 구매 비추천';
+        card.className = 'rounded-2xl p-4 mb-4 border bg-rose-50/60 border-rose-200';
+      } else {
+        badge.className = 'text-xs font-black px-3 py-1 rounded-full bg-amber-400 text-amber-950 shadow-sm';
+        badge.innerText = '🟡 좋은 빈티지';
+        card.className = 'rounded-2xl p-4 mb-4 border bg-amber-50/60 border-amber-200';
+      }
+
+      const backdrop = document.getElementById('aiResultBackdrop');
+      const sheet = document.getElementById('aiResultSheet');
+      backdrop.classList.remove('hidden');
+      setTimeout(() => sheet.classList.remove('translate-y-full'), 10);
+    }
+
+    function closeAiResultSheet() {
+      const sheet = document.getElementById('aiResultSheet');
+      sheet.classList.add('translate-y-full');
+      setTimeout(() => document.getElementById('aiResultBackdrop').classList.add('hidden'), 250);
+    }
+
+    document.getElementById('aiBackdropClickArea').addEventListener('click', closeAiResultSheet);
+
+    // ── 오프라인 매트릭스 팝업 제어 ──
+    function openBottomSheet(region, targetYear) {
       currentRegion = region;
       currentYear = targetYear || 2019;
       
       document.getElementById('sheetTitle').innerText = `${region} 빈티지 차트`;
-      document.getElementById('sheetSubTitle').innerText = wineDetailText || '2000 ~ 2024년 작황 매트릭스';
       renderMatrix();
       updateDetailCard(currentYear);
 
@@ -540,7 +613,7 @@
       document.getElementById('detailComment').innerText = info.c;
     }
 
-    // ── 이미지 클라이언트 압축 (가로 1200px로 상향하여 작은 글씨 선명도 유지) ──
+    // ── 이미지 클라이언트 압축 ──
     const cameraInput = document.getElementById('cameraInput');
     const galleryInput = document.getElementById('galleryInput');
 
@@ -555,7 +628,7 @@
       reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-          const maxDim = 1200; // 작은 연도/마을명 폰트 선명도 보장을 위해 1200px로 상향
+          const maxDim = 1000;
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -575,13 +648,13 @@
       e.target.value = '';
     }
 
-    // ── 백엔드 API 호출 (타임아웃 5.5초) ──
+    // ── 백엔드 API 호출 (방식 B 결과 매핑) ──
     async function sendToGemini(base64Image) {
       const loader = document.getElementById('loadingOverlay');
       loader.classList.remove('hidden');
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5500);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       try {
         const response = await fetch(GAS_API_URL, {
@@ -595,34 +668,29 @@
         const res = await response.json();
         loader.classList.add('hidden');
 
-        if (!res.success || !res.data) {
-          throw new Error('분석 실패');
+        if (!res.success) {
+          alert(`서버 분석 오류:\n${res.message || res.error || '알 수 없는 오류'}`);
+          return;
         }
 
-        const { region, sub_region, vintage, wine_name } = res.data;
+        const data = res.data;
 
         // 1900년 ~ 현재 연도 정합성 검증
         const currentYearLimit = new Date().getFullYear();
-        if (!vintage || vintage < 1900 || vintage > currentYearLimit) {
-          alert(`[${wine_name || '와인'}]을(를) 확인했으나 수확 연도(Vintage)를 찾을 수 없습니다.\nNV(넌빈티지) 와인이거나 연도가 다른 면에 있을 수 있습니다.`);
+        if (!data.vintage || data.vintage < 1900 || data.vintage > currentYearLimit) {
+          alert(`[${data.wine_name || '와인'}]을(를) 확인했으나 수확 연도를 찾을 수 없습니다.\nNV 와인이거나 연도가 다른 면에 있을 수 있습니다.`);
           return;
         }
 
-        if (!region || !VINTAGE_SCORES[region]) {
-          alert(`식별된 와인: [${wine_name || '와인'}]\n산지: [${sub_region || '기타'}]\n현재 등록된 6대 대표 산지에 해당하지 않습니다. 아래에서 산지를 직접 선택해주세요.`);
-          return;
-        }
-
-        // 정상 식별 시 바텀 시트 열기 (식별된 와인명/세부마을 표기)
-        const detailInfo = `${wine_name || ''} (${sub_region ? sub_region + ' · ' : ''}${region})`;
-        openBottomSheet(region, vintage, detailInfo);
+        // 방식 B: 사전 등록 여부와 무관하게 전 세계 모든 산지 결과 팝업 오픈!
+        openAiResultSheet(data);
 
       } catch (err) {
         loader.classList.add('hidden');
         if (err.name === 'AbortError') {
-          alert('네트워크 연결이 지연되었습니다.\n다시 시도하거나 아래 산지를 직접 터치해주세요.');
+          alert('분석 시간(15초)이 초과되었습니다.\n통신 상태를 확인하시거나 아래 산지를 직접 선택해주세요.');
         } else {
-          alert('라벨 분석에 실패했습니다. 다시 촬영해주세요.');
+          alert(`통신 오류가 발생했습니다: ${err.message}`);
         }
       }
     }
