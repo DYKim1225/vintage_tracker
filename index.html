@@ -29,20 +29,20 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased select-none">
 
-  <!-- 메인 모바일 뷰포트 -->
-  <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between px-5 pb-5 pt-[max(env(safe-area-inset-top),3.5rem)] relative">
+  <!-- 메인 모바일 뷰포트 (상단 노치 여백 대폭 확보: safe-area + 2.5rem) -->
+  <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between px-5 pb-6 pt-[calc(max(env(safe-area-inset-top),20px)+2.5rem)] relative">
     
-    <!-- 1. 헤더 -->
-    <header class="flex items-center gap-3 py-3 mb-2">
-      <canvas id="headerLogoCanvas" width="80" height="80" class="w-10 h-10 rounded-2xl shadow-sm shrink-0 border border-slate-200/50"></canvas>
+    <!-- 1. 헤더 (상단 여유 여백과 미려한 타이포그래피) -->
+    <header class="flex items-center gap-3.5 py-4 mb-4">
+      <canvas id="headerLogoCanvas" width="80" height="80" class="w-12 h-12 rounded-2xl shadow-sm shrink-0 border border-slate-200/60"></canvas>
       <div>
-        <h1 class="text-xl font-black text-slate-900 tracking-tight leading-none">VINTAGE FINDER</h1>
-        <p class="text-xs text-slate-400 mt-1 font-medium">스마트 와인 빈티지 가이드</p>
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none">VINTAGE FINDER</h1>
+        <p class="text-xs text-slate-400 mt-1.5 font-medium tracking-wide">스마트 글로벌 빈티지 가이드</p>
       </div>
     </header>
 
-    <!-- 2. AI 라벨 스캐너 -->
-    <section class="my-3 space-y-2.5">
+    <!-- 2. AI 라벨 스캐너 (터치감 높은 액션 버튼) -->
+    <section class="mb-5 space-y-3">
       <label class="flex items-center justify-center gap-3 w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white rounded-2xl text-base font-bold shadow-md cursor-pointer transition">
         <span class="text-xl">📷</span> 라벨 즉시 촬영
         <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden">
@@ -55,30 +55,36 @@
     </section>
 
     <!-- 3. 산지 직접 탐색 섹션 (오프라인 퀵 뷰) -->
-    <section class="grow flex flex-col mt-2">
-      <div class="flex items-center justify-between mb-2">
+    <section class="grow flex flex-col pt-1">
+      <div class="flex items-center justify-between mb-2.5">
         <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">주요 산지 빈티지 차트</h2>
-        <span class="text-[11px] text-slate-400 font-semibold">오프라인 지원</span>
+        <span class="text-[11px] text-slate-400 font-semibold flex items-center gap-1">
+          옆으로 넘겨 국가 선택 ➔
+        </span>
       </div>
 
-      <!-- 색상 3가지 의미 가이드 바 -->
+      <!-- 색상 3가지 의미 가이드 바 (순화된 워딩 반영) -->
       <div class="flex items-center justify-between bg-slate-200/60 rounded-xl px-3.5 py-2 text-[11px] font-bold text-slate-600 mb-3 border border-slate-300/40">
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span>강력 추천</span>
         <span class="text-slate-300">|</span>
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm"></span>좋은 빈티지</span>
         <span class="text-slate-300">|</span>
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span>구매 비추천</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span>어려웠던 빈티지</span>
       </div>
 
-      <!-- 국가 탭 바 (가로 스크롤) -->
-      <div id="countryTabs" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-2"></div>
+      <!-- 국가 탭 바 (우측 그라데이션 페이드 효과로 가로 스크롤 유도) -->
+      <div class="relative mb-2">
+        <div id="countryTabs" class="flex gap-2 overflow-x-auto no-scrollbar scroll-smooth pr-8 py-0.5"></div>
+        <!-- 우측 넘김 암시용 부드러운 페이드 마스크 -->
+        <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent"></div>
+      </div>
 
-      <!-- 대표 산지 카드 그리드 -->
+      <!-- 선택된 국가의 대표 산지 카드 (2열 그리드) -->
       <div id="regionGrid" class="grid grid-cols-2 gap-2.5 mt-2"></div>
     </section>
 
     <!-- 푸터 -->
-    <footer class="text-center text-[11px] text-slate-400 py-2 mt-4">
+    <footer class="text-center text-[11px] text-slate-400 py-3 mt-4">
       전 세계 모든 와인 산지 실시간 분석 지원 (1900~현재)
     </footer>
   </div>
@@ -90,7 +96,7 @@
     <p class="text-xs text-slate-300 mt-1">글로벌 지식 베이스로 실시간 판정합니다.</p>
   </div>
 
-  <!-- 5-A. 실시간 AI 사진 분석 결과 팝업 -->
+  <!-- 5-A. 실시간 AI 사진 분석 결과 팝업 (방식 B) -->
   <div id="aiResultBackdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex flex-col justify-end">
     <div id="aiBackdropClickArea" class="grow"></div>
     
@@ -325,7 +331,7 @@
     function renderCountryTabs() {
       const tabs = document.getElementById('countryTabs');
       tabs.innerHTML = Object.entries(COUNTRY_DATA).map(([key, item]) => `
-        <button onclick="selectCountry('${key}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition border ${
+        <button onclick="selectCountry('${key}')" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border shrink-0 ${
           currentCountry === key ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white text-slate-600 border-slate-200'
         }">
           ${item.flag} ${item.name}
@@ -368,7 +374,7 @@
         card.className = 'rounded-2xl p-4 mb-4 border bg-emerald-50/60 border-emerald-200';
       } else if (data.grade === 'AVOID') {
         badge.className = 'text-xs font-black px-3 py-1 rounded-full bg-rose-600 text-white shadow-sm';
-        badge.innerText = '🔴 구매 비추천';
+        badge.innerText = '🔴 어려웠던 빈티지';
         card.className = 'rounded-2xl p-4 mb-4 border bg-rose-50/60 border-rose-200';
       } else {
         badge.className = 'text-xs font-black px-3 py-1 rounded-full bg-amber-400 text-amber-950 shadow-sm';
@@ -450,7 +456,7 @@
         badge.innerText = '🟢 강력 추천';
       } else if (info.g === 'AVOID') {
         badge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800';
-        badge.innerText = '🔴 구매 비추천';
+        badge.innerText = '🔴 어려웠던 빈티지';
       } else {
         badge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-900';
         badge.innerText = '🟡 좋은 빈티지';
@@ -511,7 +517,6 @@
         });
         clearTimeout(timeoutId);
 
-        // 사파리 WebKit 에러 방지: 텍스트로 먼저 안전하게 수신
         const rawResponseText = await response.text();
         loader.classList.add('hidden');
 
@@ -519,7 +524,6 @@
         try {
           res = JSON.parse(rawResponseText);
         } catch (jsonErr) {
-          // HTML 수신 시 정확한 안내 표출
           if (rawResponseText.includes("Google Accounts") || rawResponseText.includes("ServiceLogin")) {
             alert("⚠️ 서버 권한 오류:\nGoogle Apps Script의 [배포 관리]에서 '액세스 권한이 있는 사용자'를 '모든 사용자(Anyone)'로 변경해주세요.");
           } else {
