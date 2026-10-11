@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>와인 빈티지 파인더</title>
 
-  <!-- PWA & 모바일 웹앱(홈 화면 추가) 설정 -->
+  <!-- PWA & 모바일 웹앱 설정 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="빈티지파인더">
   <meta name="application-name" content="빈티지파인더">
   <meta name="theme-color" content="#3b0914">
 
-  <!-- iOS 홈 화면 아이콘 태그 (PNG 데이터 동적 주입) -->
+  <!-- iOS 홈 화면 아이콘 태그 (PNG 동적 주입) -->
   <link id="appleTouchIcon" rel="apple-touch-icon" href="">
   <link id="favicon" rel="icon" type="image/png" href="">
 
@@ -29,10 +29,10 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased select-none">
 
-  <!-- 메인 모바일 뷰포트 (상단 노치/다이내믹 아일랜드 여백 확보) -->
+  <!-- 메인 모바일 뷰포트 (상단 노치 여백 확보) -->
   <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between px-5 pb-5 pt-[max(env(safe-area-inset-top),3.5rem)] relative">
     
-    <!-- 1. 헤더 (상단 여유 여백 및 앱 로고) -->
+    <!-- 1. 헤더 -->
     <header class="flex items-center gap-3 py-3 mb-2">
       <canvas id="headerLogoCanvas" width="80" height="80" class="w-10 h-10 rounded-2xl shadow-sm shrink-0 border border-slate-200/50"></canvas>
       <div>
@@ -85,8 +85,8 @@
   <!-- 4. 분석 중 로딩 화면 -->
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white hidden">
     <div class="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-    <p class="text-sm font-bold tracking-tight">라벨 분석 중...</p>
-    <p class="text-xs text-slate-300 mt-1">산지와 수확 연도를 추출하고 있습니다.</p>
+    <p class="text-sm font-bold tracking-tight">와인 정보 식별 중...</p>
+    <p class="text-xs text-slate-300 mt-1">라벨 디자인과 산지 정보를 분석하고 있습니다.</p>
   </div>
 
   <!-- 5. 빈티지 매트릭스 바텀 시트 (결과 팝업) -->
@@ -118,15 +118,15 @@
     </div>
   </div>
 
-  <!-- 숨겨진 고해상도 아이콘 생성용 캔버스 (180x180) -->
+  <!-- 숨겨진 180x180 아이콘 생성용 캔버스 -->
   <canvas id="iconGenCanvas" width="180" height="180" class="hidden"></canvas>
 
   <!-- 6. 메인 스크립트 -->
   <script>
-    // 전달해주신 GAS API URL 직접 연결 완료
+    // 전달해주신 GAS API URL 직접 연결
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxKMffc5u-2X4ZoBSrmj9HqcUs9tq9_JxjUgNQ1bUnOVdVI6dkOy8lofC24WyIlryY/exec";
 
-    // ── 3D 레드와인 병 + 클래식 돋보기 고해상도 PNG 아이콘 자동 생성 ──
+    // ── 3D 레드와인 병 + 황동 돋보기 아이콘 생성 ──
     function generateAppIcons() {
       const cvs = document.getElementById('iconGenCanvas');
       const ctx = cvs.getContext('2d');
@@ -136,7 +136,6 @@
       document.getElementById('appleTouchIcon').href = pngData;
       document.getElementById('favicon').href = pngData;
 
-      // 헤더 미니 로고에도 복사
       const headerCvs = document.getElementById('headerLogoCanvas');
       const hCtx = headerCvs.getContext('2d');
       drawWineGlassIcon(hCtx, 80);
@@ -146,7 +145,6 @@
       const scale = size / 180;
       ctx.clearRect(0, 0, size, size);
 
-      // 배경: 라운드 스퀘어 버건디 그라데이션
       const bgGrad = ctx.createLinearGradient(0, 0, size, size);
       bgGrad.addColorStop(0, '#4a0e1c');
       bgGrad.addColorStop(1, '#1a0307');
@@ -157,7 +155,6 @@
       ctx.fillStyle = bgGrad;
       ctx.fill();
 
-      // 레드 와인 보틀
       ctx.save();
       ctx.scale(scale, scale);
 
@@ -190,7 +187,6 @@
 
       ctx.save();
       ctx.scale(scale, scale);
-      // 골드 캡슐 (호일)
       const foilGrad = ctx.createLinearGradient(70, 0, 82, 0);
       foilGrad.addColorStop(0, '#9e782f');
       foilGrad.addColorStop(0.5, '#ffd97d');
@@ -199,7 +195,6 @@
       ctx.fillRect(70, 22, 12, 26);
       ctx.fillRect(68, 20, 16, 4);
 
-      // 베이지 와인 라벨
       ctx.fillStyle = '#f5efe4';
       ctx.fillRect(52, 102, 48, 44);
       ctx.fillStyle = '#7a1928';
@@ -209,7 +204,6 @@
       ctx.fillStyle = '#c49a45';
       ctx.fillRect(65, 130, 22, 5);
 
-      // 병 하이라이트 광택
       ctx.strokeStyle = 'rgba(255,255,255,0.25)';
       ctx.lineWidth = 2.5;
       ctx.beginPath();
@@ -217,16 +211,13 @@
       ctx.lineTo(52, 152);
       ctx.stroke();
 
-      // 클래식 황동 돋보기
       ctx.save();
       ctx.translate(118, 118);
       ctx.rotate(45 * Math.PI / 180);
 
-      // 손잡이 목부분
       ctx.fillStyle = '#dfaf4e';
       ctx.fillRect(-4, 40, 8, 8);
 
-      // 나무 손잡이
       const woodGrad = ctx.createLinearGradient(-5, 0, 5, 0);
       woodGrad.addColorStop(0, '#2e1505');
       woodGrad.addColorStop(0.5, '#5c2d0c');
@@ -236,7 +227,6 @@
       ctx.roundRect(-5, 48, 10, 38, 4);
       ctx.fill();
 
-      // 황동 링
       ctx.beginPath();
       ctx.arc(0, 0, 36, 0, Math.PI * 2);
       ctx.lineWidth = 7;
@@ -247,7 +237,6 @@
       ctx.strokeStyle = brassGrad;
       ctx.stroke();
 
-      // 유리 렌즈 & 반사광
       ctx.fillStyle = 'rgba(220, 240, 255, 0.22)';
       ctx.fill();
 
@@ -262,7 +251,7 @@
       ctx.restore();
     }
 
-    // 6대 국가 및 대표 산지 정의
+    // 6대 국가 및 대표 산지
     const COUNTRY_DATA = {
       france: { name: '프랑스', flag: '🇫🇷', regions: ['보르도', '부르고뉴', '샹파뉴', '론'] },
       italy: { name: '이탈리아', flag: '🇮🇹', regions: ['피에몬테', '토스카나', '베네토'] },
@@ -481,11 +470,12 @@
     }
 
     // ── 바텀 시트 인터랙션 ──
-    function openBottomSheet(region, targetYear) {
+    function openBottomSheet(region, targetYear, wineDetailText) {
       currentRegion = region;
       currentYear = targetYear || 2019;
       
       document.getElementById('sheetTitle').innerText = `${region} 빈티지 차트`;
+      document.getElementById('sheetSubTitle').innerText = wineDetailText || '2000 ~ 2024년 작황 매트릭스';
       renderMatrix();
       updateDetailCard(currentYear);
 
@@ -550,7 +540,7 @@
       document.getElementById('detailComment').innerText = info.c;
     }
 
-    // ── 이미지 클라이언트 압축 (Canvas Resize) ──
+    // ── 이미지 클라이언트 압축 (가로 1200px로 상향하여 작은 글씨 선명도 유지) ──
     const cameraInput = document.getElementById('cameraInput');
     const galleryInput = document.getElementById('galleryInput');
 
@@ -565,7 +555,7 @@
       reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-          const maxDim = 800;
+          const maxDim = 1200; // 작은 연도/마을명 폰트 선명도 보장을 위해 1200px로 상향
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -576,7 +566,7 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
 
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
           sendToGemini(compressedBase64);
         };
         img.src = evt.target.result;
@@ -585,13 +575,13 @@
       e.target.value = '';
     }
 
-    // ── 백엔드 API 호출 (타임아웃 4.5초) ──
+    // ── 백엔드 API 호출 (타임아웃 5.5초) ──
     async function sendToGemini(base64Image) {
       const loader = document.getElementById('loadingOverlay');
       loader.classList.remove('hidden');
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const timeoutId = setTimeout(() => controller.abort(), 5500);
 
       try {
         const response = await fetch(GAS_API_URL, {
@@ -609,21 +599,23 @@
           throw new Error('분석 실패');
         }
 
-        const { region, vintage, wine_name } = res.data;
+        const { region, sub_region, vintage, wine_name } = res.data;
 
         // 1900년 ~ 현재 연도 정합성 검증
         const currentYearLimit = new Date().getFullYear();
         if (!vintage || vintage < 1900 || vintage > currentYearLimit) {
-          alert('빈티지(4자리 수확 연도)를 확인할 수 없습니다.\nNV(넌빈티지) 와인이거나 연도가 다른 면에 있을 수 있습니다.');
+          alert(`[${wine_name || '와인'}]을(를) 확인했으나 수확 연도(Vintage)를 찾을 수 없습니다.\nNV(넌빈티지) 와인이거나 연도가 다른 면에 있을 수 있습니다.`);
           return;
         }
 
         if (!region || !VINTAGE_SCORES[region]) {
-          alert(`라벨에서 [${wine_name || '와인'}]을(를) 확인했으나 등록된 대표 산지와 일치하지 않습니다.\n아래 목록에서 산지를 직접 선택해주세요.`);
+          alert(`식별된 와인: [${wine_name || '와인'}]\n산지: [${sub_region || '기타'}]\n현재 등록된 6대 대표 산지에 해당하지 않습니다. 아래에서 산지를 직접 선택해주세요.`);
           return;
         }
 
-        openBottomSheet(region, vintage);
+        // 정상 식별 시 바텀 시트 열기 (식별된 와인명/세부마을 표기)
+        const detailInfo = `${wine_name || ''} (${sub_region ? sub_region + ' · ' : ''}${region})`;
+        openBottomSheet(region, vintage, detailInfo);
 
       } catch (err) {
         loader.classList.add('hidden');
@@ -635,7 +627,6 @@
       }
     }
 
-    // 초기 실행
     window.addEventListener('DOMContentLoaded', initUI);
   </script>
 </body>
