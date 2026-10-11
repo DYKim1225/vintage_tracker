@@ -73,7 +73,7 @@
       <!-- 국가 탭 바 (가로 스크롤) -->
       <div id="countryTabs" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-2"></div>
 
-      <!-- 선택된 국가의 대표 산지 카드 (2열 그리드) -->
+      <!-- 대표 산지 카드 그리드 -->
       <div id="regionGrid" class="grid grid-cols-2 gap-2.5 mt-2"></div>
     </section>
 
@@ -459,7 +459,7 @@
       document.getElementById('detailComment').innerText = info.c;
     }
 
-    // ── 이미지 초경량 고속 압축 (가로 640px / 퀄리티 0.65) ──
+    // ── 이미지 초경량 고속 압축 ──
     const cameraInput = document.getElementById('cameraInput');
     const galleryInput = document.getElementById('galleryInput');
 
@@ -474,7 +474,7 @@
       reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-          const maxDim = 640; // 640px로 최적화하여 전송 및 Vision 분석 시간 대폭 단축
+          const maxDim = 640;
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -485,7 +485,7 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
 
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65); // 30~50KB 초경량화
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
           sendToGemini(compressedBase64);
         };
         img.src = evt.target.result;
@@ -494,14 +494,13 @@
       e.target.value = '';
     }
 
-    // ── 백엔드 API 호출 (안전 타이머 40초) ──
+    // ── 사파리 에러 방어 및 안전 통신 파이프라인 ──
     async function sendToGemini(base64Image) {
       const loader = document.getElementById('loadingOverlay');
       loader.classList.remove('hidden');
 
       const controller = new AbortController();
-      // 무료 티어 대기열 지연 대비 40초로 안전마진 확보
-      const timeoutId = setTimeout(() => controller.abort(), 40000);
+      const timeoutId = setTimeout(() => controller.abort(), 45000);
 
       try {
         const response = await fetch(GAS_API_URL, {
@@ -512,16 +511,30 @@
         });
         clearTimeout(timeoutId);
 
-        const res = await response.json();
+        // 사파리 WebKit 에러 방지: 텍스트로 먼저 안전하게 수신
+        const rawResponseText = await response.text();
         loader.classList.add('hidden');
 
+        let res;
+        try {
+          res = JSON.parse(rawResponseText);
+        } catch (jsonErr) {
+          // HTML 수신 시 정확한 안내 표출
+          if (rawResponseText.includes("Google Accounts") || rawResponseText.includes("ServiceLogin")) {
+            alert("⚠️ 서버 권한 오류:\nGoogle Apps Script의 [배포 관리]에서 '액세스 권한이 있는 사용자'를 '모든 사용자(Anyone)'로 변경해주세요.");
+          } else {
+            const cleanErr = rawResponseText.replace(/<[^>]*>?/gm, '').trim();
+            alert(`⚠️ 서버 응답 오류:\n${cleanErr.substring(0, 150)}...`);
+          }
+          return;
+        }
+
         if (!res.success) {
-          alert(`서버 분석 오류:\n${res.message || res.error || '알 수 없는 오류'}`);
+          alert(`분석 오류:\n${res.message || '서버 처리 중 오류가 발생했습니다.'}`);
           return;
         }
 
         const data = res.data;
-
         const currentYearLimit = new Date().getFullYear();
         if (!data.vintage || data.vintage < 1900 || data.vintage > currentYearLimit) {
           alert(`[${data.wine_name || '와인'}]을(를) 확인했으나 수확 연도를 찾을 수 없습니다.\nNV 와인이거나 연도가 다른 면에 있을 수 있습니다.`);
@@ -533,9 +546,9 @@
       } catch (err) {
         loader.classList.add('hidden');
         if (err.name === 'AbortError') {
-          alert('요청 시간이 초과되었습니다.\n잠시 후 다시 시도해 주세요.');
+          alert('요청 시간(45초)이 초과되었습니다.\n잠시 후 다시 시도해 주세요.');
         } else {
-          alert(`통신 오류: ${err.message}`);
+          alert(`네트워크 통신 오류: ${err.message}`);
         }
       }
     }
