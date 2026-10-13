@@ -12,6 +12,7 @@
   <meta name="application-name" content="빈티지파인더">
   <meta name="theme-color" content="#3b0914">
 
+  <!-- 아이콘 및 매니페스트 -->
   <link id="appleTouchIcon" rel="apple-touch-icon" href="">
   <link id="favicon" rel="icon" type="image/png" href="">
   <link rel="manifest" href='data:application/manifest+json,{"name":"와인 빈티지 파인더","short_name":"빈티지파인더","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%233b0914"}'>
@@ -60,7 +61,7 @@
         </span>
       </div>
 
-      <!-- 색상 3가지 의미 가이드 바 -->
+      <!-- 색상 가이드 바 (순화된 워딩) -->
       <div class="flex items-center justify-between bg-slate-200/60 rounded-xl px-3.5 py-2 text-[11px] font-bold text-slate-600 mb-3 border border-slate-300/40">
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span>강력 추천</span>
         <span class="text-slate-300">|</span>
@@ -153,7 +154,7 @@
 
   <canvas id="iconGenCanvas" width="180" height="180" class="hidden"></canvas>
 
-  <!-- 6. 메인 스크립트 및 20개 산지 25개년 마스터 데이터 -->
+  <!-- 6. 메인 스크립트 및 20개 산지 마스터 데이터 -->
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxKMffc5u-2X4ZoBSrmj9HqcUs9tq9_JxjUgNQ1bUnOVdVI6dkOy8lofC24WyIlryY/exec";
 
@@ -290,7 +291,6 @@
       germany: { name: '독일', flag: '🇩🇪', regions: ['모젤', '라인가우', '팔츠'] }
     };
 
-    // ── 20개 핵심 산지 2000~2024년 25개년 100% 전수 마스터 데이터 ──
     const VINTAGE_SCORES = {
       '보르도': {
         2024: { g: 'AVOID', c: '잦은 비와 곰팡이 피해로 묽고 서늘한 스타일' },
@@ -1018,13 +1018,13 @@
       e.target.value = '';
     }
 
-    // ── 사파리 에러 방어 및 안전 통신 ──
+    // ── 사파리 방어 및 안전 통신 파이프라인 (35초 타이머) ──
     async function sendToGemini(base64Image) {
       const loader = document.getElementById('loadingOverlay');
       loader.classList.remove('hidden');
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 45000);
+      const timeoutId = setTimeout(() => controller.abort(), 35000);
 
       try {
         const response = await fetch(GAS_API_URL, {
@@ -1068,7 +1068,7 @@
       } catch (err) {
         loader.classList.add('hidden');
         if (err.name === 'AbortError') {
-          alert('요청 시간(45초)이 초과되었습니다.\n잠시 후 다시 시도해 주세요.');
+          alert('요청 시간이 초과되었습니다.\n구글 서버 트래픽이 일시적으로 몰렸으니 다시 한 번 눌러주세요.');
         } else {
           alert(`네트워크 통신 오류: ${err.message}`);
         }
